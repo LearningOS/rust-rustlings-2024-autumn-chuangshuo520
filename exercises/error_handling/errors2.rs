@@ -6,7 +6,7 @@
 // the `total_cost` function will calculate the total cost of the tokens. Since
 // the player typed in the quantity, though, we get it as a string-- and they
 // might have typed anything, not just numbers!
-//
+
 // Right now, this function isn't handling the error case at all (and isn't
 // handling the success case properly either). What we want to do is: if we call
 // the `parse` function on a string that is not a number, that function will
@@ -26,9 +26,10 @@ use std::num::ParseIntError;
 pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let processing_fee = 1;
     let cost_per_item = 5;
-    let qty = item_quantity.parse::<i32>();
-
-    Ok(qty * cost_per_item + processing_fee)
+    match item_quantity.parse::<i32>() {  
+        Ok(qty) => Ok(qty * cost_per_item + processing_fee),  
+        Err(e) => Err(e), // 直接返回解析错误  
+    } 
 }
 
 #[cfg(test)]
